@@ -1,0 +1,64 @@
+template Host "generic-host" {
+  max_check_attempts = 3
+  check_interval = 1m
+  retry_interval = 30s
+
+  check_command = "hostalive"
+}
+
+template Service "generic-service" {
+  max_check_attempts = 5
+  check_interval = 1m
+  retry_interval = 30s
+}
+
+template Notification "generic-notification" {
+  vars += {
+    notification_icingaweb2url = "{{ ansible_fqdn }}"
+    notification_from = "Icinga Host Monitoring <icinga@{{ ansible_fqdn }}>"
+  }
+
+  period = "24x7"
+}
+
+template Notification "mail-host-notification" {
+  import "generic-notification"
+
+  command = "mail-host-notification"
+
+  states = [ Up, Down ]
+  types = [ Problem, Acknowledgement, Recovery, Custom,
+            FlappingStart, FlappingEnd,
+            DowntimeStart, DowntimeEnd, DowntimeRemoved ]
+}
+
+template Notification "mail-service-notification" {
+  import "generic-notification"
+
+  command = "mail-service-notification"
+
+  states = [ OK, Warning, Critical, Unknown ]
+  types = [ Problem, Acknowledgement, Recovery, Custom,
+            FlappingStart, FlappingEnd,
+            DowntimeStart, DowntimeEnd, DowntimeRemoved ]
+}
+
+template Service "ssh-service" {
+  import "generic-service"
+
+  vars.real_check_command = check_command
+  vars += get_check_command(check_command).vars
+  vars.by_ssh_command = {{ '{{' }} get_check_command(service.vars.real_check_command).command {{ '}}' }}
+  vars.by_ssh_arguments = {{ '{{' }} get_check_command(service.vars.real_check_command).arguments {{ '}}' }}
+
+  check_command = "by_ssh"
+}
+
+template Service "mysql-health-service" {
+  check_command = "mysql_health"
+  import "ssh-service"
+
+  vars.mysql_health_lookback = 1800
+  vars.mysql_health_extraopts = "mysql@/etc/nagios-plugins.ini"
+  vars.mysql_health_hostname = "127.0.0.1"
+}

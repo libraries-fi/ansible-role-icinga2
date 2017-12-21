@@ -1,0 +1,18 @@
+{% for host in groups["nagios-ssh-monitored"] %}
+{% if hostvars[host]['nagios_hostgroups'] is defined %}
+object Host "{{ hostvars[host]['inventory_hostname'] }}" {
+  import "generic-host"
+  address = "{{ hostvars[host]['ansible_default_ipv4']['address'] }}"
+  groups += {{ hostvars[host]['nagios_hostgroups'] | to_json }}
+{% if hostvars[host]['wordpress_sites'] is defined %}
+  vars.wpsites = {{ hostvars[host]['wordpress_sites'] | to_json }}
+{% endif %}
+}
+
+{% endif %}
+{% endfor %}
+object Host NodeName {
+  import "generic-host"
+
+  address = "127.0.0.1"
+}

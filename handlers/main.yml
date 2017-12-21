@@ -1,0 +1,9 @@
+- name: restart icinga
+  service:
+    name: icinga2
+    state: restarted
+
+- name: reload icinga
+  service:
+    name: icinga2
+    state: reloaded

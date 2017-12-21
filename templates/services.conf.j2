@@ -1,0 +1,221 @@
+apply Service "ping4" {
+  import "generic-service"
+  check_command = "ping4"
+  assign where host.address
+}
+
+apply Service "ssh" {
+  import "generic-service"
+  check_command = "ssh"
+  assign where host.address || host.address6
+}
+
+apply Service "load" {
+  check_command = "load"
+  import "ssh-service"
+  vars.load_wload1 = 15
+  vars.load_wload5 = 10
+  vars.load_wload15 = 5
+  vars.load_cload1 = 30
+  vars.load_cload5 = 25
+  vars.load_cload15 = 20
+  assign where "private-servers" in host.groups
+}
+
+apply Service "OS updates" {
+  check_command = "apt"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "MySQL Slow Queries" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "slow-queries"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Query Cache Hitrate" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "qcache-hitrate"
+  vars.mysql_health_warning = "0:"
+  vars.mysql_health_critical = "0:"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL InnoDB Buffer Pool Hitrate" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "bufferpool-hitrate"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL InnoDB Buffer Pool Waits" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "bufferpool-wait-free"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Query Cache Lowmem Prunes" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "qcache-lowmem-prunes"
+  vars.mysql_health_warning = 50
+  vars.mysql_health_critical = 60
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Temporary Disk Tables" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "tmp-disk-tables"
+  vars.mysql_health_warning = "0:"
+  vars.mysql_health_critical = "0:"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Table Lock Contention" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "table-lock-contention"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Index Usage" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "index-usage"
+  vars.mysql_health_critical = "0:"
+  vars.mysql_health_warning = "0:"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL Thread Cache Hitrate" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "threadcache-hitrate"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "MySQL InnoDB Log Waits" {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "log-waits"
+  assign where "mysql-servers" in host.groups
+}
+
+apply Service "swap" {
+  check_command = "swap"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "disk" {
+  check_command = "disk"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "memory" {
+  check_command = "memory"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "Drupal Status" {
+  check_command = "drupal-reqs"
+  import "ssh-service"
+  assign where "drupal-sites" in host.groups
+}
+
+apply Service "Drupal Anonymyous Sessions" {
+  check_command = "drupal-sessanon"
+  import "ssh-service"
+  assign where "drupal-sites" in host.groups
+}
+
+apply Service "Drupal Authenticated Sessions" {
+  check_command = "drupal-sessauth"
+  import "ssh-service"
+  assign where "drupal-sites" in host.groups
+}
+
+apply Service "Drupal Nodes" {
+  check_command = "drupal-nodes"
+  import "ssh-service"
+  assign where "drupal-sites" in host.groups
+}
+
+apply Service "Drupal Users" {
+  check_command = "drupal-users"
+  import "ssh-service"
+  assign where "drupal-sites" in host.groups
+}
+
+apply Service "Apache Stats" {
+  check_command = "apache"
+  import "ssh-service"
+  assign where "apache-servers" in host.groups
+}
+
+apply Service "Tomcat GC PS Scavenge" {
+  check_command = "jmx-ps-scavenge"
+  import "ssh-service"
+  assign where "tomcat-parallel-gc" in host.groups
+}
+
+apply Service "Tomcat GC PS MarkSweep" {
+  check_command = "jmx-ps-marksweep"
+  import "ssh-service"
+  assign where "tomcat-parallel-gc" in host.groups
+  assign where "tomcat-conc-mark-sweep-gc" in host.groups
+}
+
+apply Service "Tomcat GC ParNew" {
+  check_command = "jmx-ps-parnew"
+  import "ssh-service"
+  assign where "tomcat-conc-mark-sweep-gc" in host.groups
+}
+
+apply Service "Tomcat Memory Usage" {
+  check_command = "jmx-memory"
+  import "ssh-service"
+  assign where "tomcat-servers" in host.groups
+}
+
+apply Service "Tomcat Threads" {
+  check_command = "jmx-threads"
+  import "ssh-service"
+  assign where "tomcat-servers" in host.groups
+}
+
+apply Service "Tomcat RequestProcessor" {
+  check_command = "jmx-request-processor"
+  import "ssh-service"
+  assign where "tomcat-servers" in host.groups
+}
+
+apply Service "Wordpress Updates – " for (sitename in host.vars.wpsites) {
+  check_command = "wordpress"
+  vars.sitename = sitename
+  import "ssh-service"
+  assign where host.vars.wpsites
+}
+
+# localhost checks
+
+apply Service "swap" {
+  import "generic-service"
+  check_command = "swap"
+  assign where host.name == NodeName
+}
+
+apply Service "load" {
+  import "generic-service"
+  check_command = "load"
+  assign where host.name == NodeName
+}
+
+apply Service "icinga" {
+  import "generic-service"
+  check_command = "icinga"
+  assign where host.name == NodeName
+}
+
+apply Service "OS updates" {
+  import "generic-service"
+  check_command = "apt"
+  assign where host.name == NodeName
+}

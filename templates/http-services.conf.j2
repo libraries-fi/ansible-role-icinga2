@@ -1,0 +1,71 @@
+apply Service "kirjastokaista.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_vhost = "www.kirjastokaista.fi"
+  vars.http_uri = "/wp/wp-login.php"
+  assign where host.name == "kirjastokaista.fi"
+}
+
+apply Service "ekirjasto.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/admin"
+  vars.http_vhost = "ekirjasto.kirjastot.fi"
+  assign where host.name == "ekirjasto.kirjastot.fi"
+}
+
+apply Service "kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/?page=1"
+  vars.http_vhost = "www.kirjastot.fi"
+  assign where host.name == "kirjastot.fi"
+}
+
+apply Service "makupalat.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/?page=1"
+  vars.http_vhost = "www.makupalat.fi"
+  assign where host.name == "makupalat.fi"
+}
+
+apply Service "kirjasampo.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/?page=1"
+  vars.http_vhost = "www.kirjasampo.fi"
+  assign where host.name == "frontend.kirjasampo.fi"
+}
+
+apply Service "saha.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/saha/project/index.shtml?model=kirjasampo"
+  vars.http_vhost = "saha.kirjastot.fi"
+  assign where host.name == "saha.kirjastot.fi"
+}
+
+apply Service "projektit.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/"
+  vars.http_vhost = "projektit.kirjastot.fi"
+  assign where host.name == "projektit.kirjastot.fi"
+}
+
+apply Service "digi.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/"
+  vars.http_vhost = "digi.kirjastot.fi"
+  assign where host.name == "digi.kirjastot.fi"
+}
+
+apply Service "tilastot.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/"
+  vars.http_vhost = "tilastot.kirjastot.fi"
+  assign where host.name == "tilastot.kirjastot.fi"
+}

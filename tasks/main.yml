@@ -1,0 +1,70 @@
+- name: Preseed IDO MySQL package answers
+  debconf:
+    name: icinga2-ido-mysql
+    question: "{{ item.key }}"
+    value: "{{ item.value }}"
+    vtype: select
+  with_dict:
+    icinga2-ido-mysql/enable: true
+    icinga2-ido-mysql/dbconfig-install: false
+
+- name: Install Icinga, IDO MySQL and Monitoring plugins
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - icinga2
+    - icinga2-ido-mysql
+    - monitoring-plugins
+
+- name: Enable Icinga modules
+  icinga2_feature:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ icinga2_modules }}"
+  notify: restart icinga
+
+- name: Import Icinga IDO MySQL schema
+  mysql_db:
+    name: "{{ icinga2_db.name }}"
+    state: import
+    target: /usr/share/icinga2-ido-mysql/schema/mysql.sql
+  when:
+    - db_created.changed
+    - synced_config is not defined
+
+- name: Copy Icinga config files
+  template:
+    src: "{{ item.key }}"
+    dest: "{{ item.value }}"
+  with_dict:
+    ido-mysql.conf.j2: /etc/icinga2/features-available/ido-mysql.conf
+    graphite.conf.j2: /etc/icinga2/features-available/graphite.conf
+  notify: reload icinga
+
+- name: Copy configuration files under /etc/icinga2/conf.d
+  template:
+    src: "{{ item }}".j2
+    dest: /etc/icinga2/conf.d/"{{ item }}"
+  notify: reload icinga
+  with_items:
+    - hosts.conf
+    - groups.conf
+    - services.conf
+    - templates.conf
+    - users.conf
+    - check-commands.conf
+    - http-services.conf
+
+- name: Copy constants.conf
+  template:
+    src: constants.conf.j2
+    dest: /etc/icinga2/constants.conf
+  notify: reload icinga
+
+- name: Remove unwanted config files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ icinga2_unwanted_files }}"
+  notify: reload icinga

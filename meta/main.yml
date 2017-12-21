@@ -1,0 +1,21 @@
+dependencies:
+  - role: ANXS.mysql
+
+  - role: ajsalminen.mysql_database
+    mysql_database_details: "{{ icinga2_db }}"
+
+  - role: ajsalminen.mysql_sync
+    mysql_sync_config:
+      - source: "{{ synced_config.host }}"
+        database: "{{ icinga2_db.name }}"
+        target_database: "{{ icinga2_db.name }}"
+    when: synced_config is defined
+
+  - role: ajsalminen.apt_source
+    apt_source_config:
+      - source: deb http://packages.icinga.com/debian {{ icinga2_repository }} main
+        key:
+          url: http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xC6E319C334410682
+          id: C6E319C334410682
+        packages:
+          - pattern: '*icinga*'

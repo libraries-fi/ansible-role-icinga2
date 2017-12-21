@@ -1,0 +1,55 @@
+object CheckCommand "memory" {
+       command = [ PluginCustomDir + "/check_mem" ]
+}
+
+object CheckCommand "drupal-reqs" {
+       command = [ PluginCustomDir + "/check_drupal_reqs" ]
+}
+
+object CheckCommand "drupal-sessanon" {
+       command = [ PluginCustomDir + "/check_drupal_sessanon" ]
+}
+
+object CheckCommand "drupal-sessauth" {
+       command = [ PluginCustomDir + "/check_drupal_sessauth" ]
+}
+
+object CheckCommand "drupal-nodes" {
+       command = [ PluginCustomDir + "/check_drupal_nodes" ]
+}
+
+object CheckCommand "drupal-users" {
+       command = [ PluginCustomDir + "/check_drupal_users" ]
+}
+
+object CheckCommand "apache" {
+       command = [ PluginCustomDir + "/check_apache" ]
+}
+
+object CheckCommand "jmx-memory" {
+       command = [ PluginCustomDir + "/check_jmxmemory" ]
+}
+
+object CheckCommand "jmx-threads" {
+       command = [ PluginCustomDir + "/check_jmxthreadpool" ]
+}
+
+object CheckCommand "jmx-request-processor" {
+       command = [ PluginCustomDir + "/check_jmx_requestprocessor" ]
+}
+
+object CheckCommand "jmx-ps-parnew" {
+       command = [ PluginCustomDir + "/check_jmx_ps_parnew" ]
+}
+
+object CheckCommand "jmx-ps-marksweep" {
+       command = [ PluginCustomDir + "/check_jmx_ps_marksweep" ]
+}
+
+object CheckCommand "jmx-ps-scavenge" {
+       command = [ PluginCustomDir + "/check_jmx_ps_scavenge" ]
+}
+
+object CheckCommand "wordpress" {
+       command = [ PluginCustomDir + "/check_wp_" +  "$sitename$"]
+}

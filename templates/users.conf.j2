@@ -1,0 +1,10 @@
+object User "{{ icinga2_admin_username }}" {
+  display_name = "{{ icinga2_admin_username }}"
+  groups = [ "admins" ]
+
+  email = "root@localhost"
+}
+
+object UserGroup "admins" {
+  display_name = "Admin Group"
+}
