@@ -5,7 +5,7 @@ icinga2_modules:
 icinga2_repository: icinga-stretch
 icinga2_admin_username: icingaadmin
 icinga2_plugin_custom_dir: /opt/nagios/netplug/netplug_commands
-
+icinga2_ssh_timeout: 30s
 icinga2_unwanted_files:
   - /etc/icinga2/conf.d/downtimes.conf
   - /etc/icinga2/conf.d/apt.conf

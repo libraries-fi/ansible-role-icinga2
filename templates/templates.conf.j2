@@ -50,6 +50,7 @@ template Service "ssh-service" {
   vars += get_check_command(check_command).vars
   vars.by_ssh_command = {{ '{{' }} get_check_command(service.vars.real_check_command).command {{ '}}' }}
   vars.by_ssh_arguments = {{ '{{' }} get_check_command(service.vars.real_check_command).arguments {{ '}}' }}
+  vars.by_ssh_timeout = {{ icinga2_ssh_timeout }}
 
   check_command = "by_ssh"
 }
