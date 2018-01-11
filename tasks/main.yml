@@ -55,6 +55,7 @@
     - users.conf
     - check-commands.conf
     - http-services.conf
+    - notifications.conf
 
 - name: Copy constants.conf
   template:

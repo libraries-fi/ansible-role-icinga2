@@ -1,0 +1,13 @@
+apply Notification "mail-admins" to Host {
+  import "mail-host-notification"
+  user_groups = host.vars.notification.mail.groups
+  interval = 0
+  assign where host.vars.notification.mail
+}
+
+apply Notification "mail-admins-service" to Service {
+  import "mail-service-notification"
+  user_groups = host.vars.notification.mail.groups
+  interval = 0
+  assign where host.vars.notification.mail
+}
