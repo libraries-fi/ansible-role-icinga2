@@ -17,7 +17,7 @@ template Service "generic-service" {
 
 template Notification "generic-notification" {
   vars += {
-    notification_icingaweb2url = "{{ ansible_fqdn }}"
+    notification_icingaweb2url = "http://{{ ansible_fqdn }}"
     notification_from = "Icinga Host Monitoring <icinga@{{ ansible_fqdn }}>"
   }
 
