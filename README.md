@@ -16,6 +16,7 @@ Role Variables
  * icinga2_admin_username: Username for administrator account
  * icinga2_plugin_custom_dir: directory where your custom check plugins are located
  * icinga2_unwanted_files: config files you want to remove
+ * icinga2_users: list of users to whom send notifications, see the example playbook.
  * mysql_health_checks: TODO
 
 Dependencies
@@ -33,6 +34,9 @@ Example Playbook
 - hosts: icinga
   roles:
     - role: icinga2
+      icinga2_users:
+        - username: tester
+          email: example@example.com
 ```
 
 License

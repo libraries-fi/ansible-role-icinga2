@@ -1,10 +1,16 @@
 object User "{{ icinga2_admin_username }}" {
   display_name = "{{ icinga2_admin_username }}"
   groups = [ "admins" ]
-
-  email = "root@localhost"
 }
 
+{% for user in icinga2_users %}
+object User "{{ user.username }}" {
+  display_name = "{{ user.username }}"
+  email = "{{ user.email }}"
+  groups = [ "admins" ]
+}
+
+{% endfor %}
 object UserGroup "admins" {
   display_name = "Admin Group"
 }
