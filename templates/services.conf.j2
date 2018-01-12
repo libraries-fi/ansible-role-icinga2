@@ -13,12 +13,13 @@ apply Service "ssh" {
 apply Service "load" {
   check_command = "load"
   import "ssh-service"
-  vars.load_wload1 = 15
-  vars.load_wload5 = 10
-  vars.load_wload15 = 5
-  vars.load_cload1 = 30
-  vars.load_cload5 = 25
-  vars.load_cload15 = 20
+  vars.load_wload1 = 3
+  vars.load_wload5 = 2
+  vars.load_wload15 = 1.1
+  vars.load_cload1 = 6
+  vars.load_cload5 = 5
+  vars.load_cload15 = 4
+  vars.load_percpu = true
   assign where "private-servers" in host.groups
 }
 
