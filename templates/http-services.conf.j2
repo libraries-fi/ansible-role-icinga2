@@ -9,7 +9,7 @@ apply Service "kirjastokaista.fi HTTP" {
 apply Service "ekirjasto.kirjastot.fi HTTP" {
   import "generic-service"
   check_command = "http"
-  vars.http_uri = "/admin"
+  vars.http_uri = "/auth/signin"
   vars.http_vhost = "ekirjasto.kirjastot.fi"
   assign where host.name == "ekirjasto.kirjastot.fi"
 }
