@@ -11,3 +11,11 @@ icinga2_unwanted_files:
   - /etc/icinga2/conf.d/apt.conf
 
 mysql_health_checks: []
+
+icinga2_services_without_notification:
+  - "OS updates"
+  - "MySQL InnoDB Buffer Pool Hitrate"
+  - "MySQL InnoDB Log Waits"
+  - "MySQL Index Usage"
+  - "MySQL Query Cache Hitrate"
+  - "MySQL Thread Cache Hitrate"

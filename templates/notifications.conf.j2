@@ -10,4 +10,8 @@ apply Notification "mail-admins-service" to Service {
   user_groups = host.vars.notification.mail.groups
   interval = 0
   assign where host.vars.notification.mail
+
+{% for service in icinga2_services_without_notification %}
+  ignore where service.name == "{{ service }}"
+{% endfor %}
 }
