@@ -9,9 +9,11 @@ apply Notification "mail-admins-service" to Service {
   import "mail-service-notification"
   user_groups = host.vars.notification.mail.groups
   interval = 0
-  assign where host.vars.notification.mail
 
-{% for service in icinga2_services_without_notification %}
-  ignore where service.name == "{{ service }}"
-{% endfor %}
+  assign where service.name == "load"
+  assign where service.name == "ping4"
+  assign where service.name == "disk"
+  assign where service.name == "memory"
+  assign where service.name == "swap"
+  assign where service.check_command == "http"
 }
