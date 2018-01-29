@@ -15,7 +15,7 @@ apply Service "load" {
   import "ssh-service"
   vars.load_wload1 = 3
   vars.load_wload5 = 2
-  vars.load_wload15 = 1.2
+  vars.load_wload15 = 1.5
   vars.load_cload1 = 6
   vars.load_cload5 = 5
   vars.load_cload15 = 4
@@ -108,6 +108,8 @@ apply Service "swap" {
 apply Service "disk" {
   check_command = "disk"
   import "ssh-service"
+  vars.disk_wfree = "10%"
+  vars.disk_cfree = "5%"
   assign where "private-servers" in host.groups
 }
 
