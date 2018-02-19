@@ -22,6 +22,14 @@ apply Service "kirjastot.fi HTTP" {
   assign where host.name == "kirjastot.fi"
 }
 
+apply Service "api.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/v3/service"
+  vars.http_vhost = "api.kirjastot.fi"
+  assign where host.name == "kirjastot.fi"
+}
+
 apply Service "makupalat.fi HTTP" {
   import "generic-service"
   check_command = "http"
