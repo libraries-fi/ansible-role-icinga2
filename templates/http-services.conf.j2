@@ -25,8 +25,9 @@ apply Service "kirjastot.fi HTTP" {
 apply Service "api.kirjastot.fi HTTP" {
   import "generic-service"
   check_command = "http"
-  vars.http_uri = "/v3/service"
+  vars.http_uri = "/v3/city?name=Helsinki"
   vars.http_vhost = "api.kirjastot.fi"
+  vars.http_address = "api.kirjastot.fi"
   assign where host.name == "kirjastot.fi"
 }
 
