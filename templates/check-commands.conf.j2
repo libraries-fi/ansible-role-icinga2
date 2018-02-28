@@ -53,3 +53,11 @@ object CheckCommand "jmx-ps-scavenge" {
 object CheckCommand "wordpress" {
        command = [ PluginCustomDir + "/check_wp_" +  "$sitename$"]
 }
+
+object CheckCommand "mysql_table_size" {
+       command = [ PluginCustomDir + "/check_mysql_table_size" ]
+}
+
+object CheckCommand "cpu" {
+       command = [ PluginCustomDir + "/check_cpu"]
+}

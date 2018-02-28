@@ -23,6 +23,18 @@ apply Service "load" {
   assign where "private-servers" in host.groups
 }
 
+apply Service "CPU Stats" {
+  check_command = "cpu"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "MYSQL table sizes" {
+  check_command = "mysql_table_size"
+  import "ssh-service"
+  assign where "mysql-servers" in host.groups
+}
+
 apply Service "OS updates" {
   check_command = "apt"
   import "ssh-service"
