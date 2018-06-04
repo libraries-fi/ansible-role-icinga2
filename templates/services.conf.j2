@@ -215,6 +215,7 @@ apply Service "Fragmented tables – " for (database in host.vars.databases) {
   import "mysql-health-service"
   vars.mysql_health_mode = "table-fragmentation"
   vars.mysql_health_database = database
+  check_interval = 7d
   assign where host.vars.databases && "mysql-servers" in host.groups
 }
 
