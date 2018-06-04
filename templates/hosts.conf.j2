@@ -7,6 +7,9 @@ object Host "{{ hostvars[host]['inventory_hostname'] }}" {
 {% if hostvars[host]['wordpress_sites'] is defined %}
   vars.wpsites = {{ hostvars[host]['wordpress_sites'] | to_json }}
 {% endif %}
+{% if hostvars[host]['icinga2_databases'] is defined %}
+  vars.databases = {{ hostvars[host]['icinga2_databases'] | to_json }}
+{% endif %}
 }
 
 {% endif %}

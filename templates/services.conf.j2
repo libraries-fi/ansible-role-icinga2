@@ -211,6 +211,13 @@ apply Service "Wordpress Updates – " for (sitename in host.vars.wpsites) {
   assign where host.vars.wpsites
 }
 
+apply Service "Fragmented tables – " for (database in host.vars.databases) {
+  import "mysql-health-service"
+  vars.mysql_health_mode = "table-fragmentation"
+  vars.mysql_health_database = database
+  assign where host.vars.databases && "mysql-servers" in host.groups
+}
+
 # localhost checks
 
 apply Service "swap" {
