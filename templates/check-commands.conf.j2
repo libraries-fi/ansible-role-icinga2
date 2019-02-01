@@ -61,3 +61,15 @@ object CheckCommand "mysql_table_size" {
 object CheckCommand "cpu" {
        command = [ PluginCustomDir + "/check_cpu"]
 }
+
+object CheckCommand "iostats-io" {
+       command = [ PluginCustomDir + "/check_iostats_io"]
+}
+
+object CheckCommand "iostats-queue" {
+       command = [ PluginCustomDir + "/check_iostats_queue"]
+}
+
+object CheckCommand "iostats-wait" {
+       command = [ PluginCustomDir + "/check_iostats_wait"]
+}

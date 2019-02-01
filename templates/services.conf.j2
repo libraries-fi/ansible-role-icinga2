@@ -244,3 +244,21 @@ apply Service "OS updates" {
   check_command = "apt"
   assign where host.name == NodeName
 }
+
+apply Service "Disk IO" {
+  check_command = "iostats-io"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "Disk IO queue" {
+  check_command = "iostats-queue"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "Disk IO wait" {
+  check_command = "iostats-wait"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
