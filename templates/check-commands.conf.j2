@@ -73,3 +73,11 @@ object CheckCommand "iostats-queue" {
 object CheckCommand "iostats-wait" {
        command = [ PluginCustomDir + "/check_iostats_wait"]
 }
+
+object CheckCommand "paging" {
+       command = [ PluginCustomDir + "/check_paging"]
+}
+
+object CheckCommand "network" {
+       command = [ PluginCustomDir + "/check_network"]
+}

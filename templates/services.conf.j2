@@ -262,3 +262,15 @@ apply Service "Disk IO wait" {
   import "ssh-service"
   assign where "private-servers" in host.groups
 }
+
+apply Service "Paging and swapping" {
+  check_command = "paging"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
+
+apply Service "Network" {
+  check_command = "network"
+  import "ssh-service"
+  assign where "private-servers" in host.groups
+}
