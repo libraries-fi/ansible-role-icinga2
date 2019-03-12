@@ -114,6 +114,7 @@ apply Service "swap" {
   import "ssh-service"
   vars.swap_wfree = 25
   vars.swap_cfree = 15
+  vars.swap_noswap = "ok"
   assign where "private-servers" in host.groups
 }
 
