@@ -28,7 +28,28 @@ apply Service "api.kirjastot.fi HTTP" {
   vars.http_uri = "/v3/city?name=Helsinki"
   vars.http_vhost = "api.kirjastot.fi"
   vars.http_address = "api.kirjastot.fi"
-  assign where host.name == "kirjastot.fi"
+  vars.http_ssl = true
+  assign where host.name == "hakemisto.kirjastot.fi"
+}
+
+apply Service "hakemisto.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/helsinki/pasila"
+  vars.http_vhost = "hakemisto.kirjastot.fi"
+  vars.http_address = "hakemisto.kirjastot.fi"
+  vars.http_ssl = true
+  assign where host.name == "hakemisto.kirjastot.fi"
+}
+
+apply Service "kirkanta.kirjastot.fi HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/login"
+  vars.http_vhost = "kirkanta.kirjastot.fi"
+  vars.http_address = "kirkanta.kirjastot.fi"
+  vars.http_ssl = true
+  assign where host.name == "hakemisto.kirjastot.fi"
 }
 
 apply Service "makupalat.fi HTTP" {
