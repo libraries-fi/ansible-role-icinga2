@@ -22,13 +22,47 @@ apply Service "kirjastot.fi HTTP" {
   assign where host.name == "kirjastot.fi"
 }
 
-apply Service "api.kirjastot.fi HTTP" {
+apply Service "api.kirjastot.fi v1 HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/v1/organisation/goQMRZg5TEOmxx1cibj--A?scope=hours&start=now&fullweeks&format=json"
+  vars.http_vhost = "api.kirjastot.fi"
+  vars.http_address = "api.kirjastot.fi"
+  vars.http_ssl = true
+  vars.http_expect = "200"
+  assign where host.name == "hakemisto.kirjastot.fi"
+}
+
+apply Service "api.kirjastot.fi v2 HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/v2/libraries/goQMRZg5TEOmxx1cibj--A?format=json"
+  vars.http_vhost = "api.kirjastot.fi"
+  vars.http_address = "api.kirjastot.fi"
+  vars.http_ssl = true
+  vars.http_expect = "200"
+  assign where host.name == "hakemisto.kirjastot.fi"
+}
+
+apply Service "api.kirjastot.fi v3 HTTP" {
   import "generic-service"
   check_command = "http"
   vars.http_uri = "/v3/city?name=Helsinki"
   vars.http_vhost = "api.kirjastot.fi"
   vars.http_address = "api.kirjastot.fi"
   vars.http_ssl = true
+  vars.http_expect = "200"
+  assign where host.name == "hakemisto.kirjastot.fi"
+}
+
+apply Service "api.kirjastot.fi v4 HTTP" {
+  import "generic-service"
+  check_command = "http"
+  vars.http_uri = "/v3/city?name=Helsinki"
+  vars.http_vhost = "api.kirjastot.fi"
+  vars.http_address = "api.kirjastot.fi"
+  vars.http_ssl = true
+  vars.http_expect = "200"
   assign where host.name == "hakemisto.kirjastot.fi"
 }
 
@@ -39,6 +73,7 @@ apply Service "hakemisto.kirjastot.fi HTTP" {
   vars.http_vhost = "hakemisto.kirjastot.fi"
   vars.http_address = "hakemisto.kirjastot.fi"
   vars.http_ssl = true
+  vars.http_expect = "200"
   assign where host.name == "hakemisto.kirjastot.fi"
 }
 
@@ -49,6 +84,7 @@ apply Service "kirkanta.kirjastot.fi HTTP" {
   vars.http_vhost = "kirkanta.kirjastot.fi"
   vars.http_address = "kirkanta.kirjastot.fi"
   vars.http_ssl = true
+  vars.http_expect = "200"
   assign where host.name == "hakemisto.kirjastot.fi"
 }
 
