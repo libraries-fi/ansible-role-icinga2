@@ -1,6 +1,7 @@
 apply Service "ping4" {
   import "generic-service"
   check_command = "ping4"
+  vars.pnp_check_name = "check_ping"
   assign where host.address
 }
 

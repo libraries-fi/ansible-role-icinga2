@@ -7,12 +7,19 @@ template Host "generic-host" {
   }
 
   check_command = "hostalive"
+  vars.pnp_check_name = "check_host-alive"
 }
 
 template Service "generic-service" {
   max_check_attempts = 5
   check_interval = 1m
   retry_interval = 30s
+
+  // pnp4nagios doesn't correctly detect template because it expects
+  // check_command to begin with "check_". This is corrected here and
+  // in perfdata conf by adding pnp_check_name for overriding template.
+  // See: https://github.com/Icinga/icinga2/issues/1886
+  vars.pnp_check_name = "check_$service.check_command$"
 }
 
 template Notification "generic-notification" {
@@ -47,7 +54,12 @@ template Notification "mail-service-notification" {
 }
 
 template Service "ssh-service" {
-  import "generic-service"
+  max_check_attempts = 5
+  check_interval = 1m
+  retry_interval = 30s
+
+  // Set correct template for services called with ssh.
+  vars.pnp_check_name = "check_$check_command$"
 
   vars.check_command = check_command
   vars += get_check_command(check_command).vars
