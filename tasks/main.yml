@@ -17,6 +17,15 @@
     - icinga2-ido-mysql
     - monitoring-plugins
 
+- name: Copy Icinga config files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: ido-mysql.conf.j2, dest: /etc/icinga2/features-available/ido-mysql.conf }
+    - { src: perfdata.conf.j2, dest: /etc/icinga2/features-available/perfdata.conf }
+  notify: reload icinga
+
 - name: Enable Icinga modules
   icinga2_feature:
     name: "{{ item }}"
@@ -32,15 +41,6 @@
   when:
     - db_created.changed
     - synced_config is not defined
-
-- name: Copy Icinga config files
-  template:
-    src: "{{ item.key }}"
-    dest: "{{ item.value }}"
-  with_dict:
-    ido-mysql.conf.j2: /etc/icinga2/features-available/ido-mysql.conf
-    graphite.conf.j2: /etc/icinga2/features-available/graphite.conf
-  notify: reload icinga
 
 - name: Copy configuration files under /etc/icinga2/conf.d
   template:
@@ -69,3 +69,23 @@
     state: absent
   with_items: "{{ icinga2_unwanted_files }}"
   notify: reload icinga
+
+- name: Copy nagios ssh private key
+  copy:
+    src: "{{ PLAYBOOK_PRIVATE_ROLE_ASSETS_PATH }}nagios_host/nagios"
+    dest: /var/lib/nagios/.ssh/id_rsa
+    owner: nagios
+    group: nagios
+    mode: u=rw,g=,o=
+  tags: icinga_ssh
+
+- name: Set ssh config
+  copy:
+    content: |
+      Host *
+        StrictHostKeyChecking no
+    dest: /var/lib/nagios/.ssh/config
+    owner: nagios
+    group: nagios
+    mode: u=rw,g=,o=
+  tags: icinga_ssh

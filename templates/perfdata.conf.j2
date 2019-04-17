@@ -1,0 +1,5 @@
+
+object PerfdataWriter "perfdata" {
+    host_format_template = "DATATYPE::HOSTPERFDATA\tTIMET::$icinga.timet$\tHOSTNAME::$host.name$\tHOSTPERFDATA::$host.perfdata$\tHOSTCHECKCOMMAND::check_$host.check_command$\tHOSTSTATE::$host.state$\tHOSTSTATETYPE::$host.statetype$"
+    service_format_template = "DATATYPE::SERVICEPERFDATA\tTIMET::$icinga.timet$\tHOSTNAME::$host.name$\tSERVICEDESC::$service.name$\tSERVICEPERFDATA::$service.perfdata$\tSERVICECHECKCOMMAND::$pnp_check_name$\tHOSTSTATE::$host.state$\tHOSTSTATETYPE::$host.statetype$\tSERVICESTATE::$service.state$\tSERVICESTATETYPE::$service.statetype$"
+}

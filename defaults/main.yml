@@ -1,7 +1,7 @@
 icinga2_modules:
   - command
-  - graphite
   - ido-mysql
+  - perfdata
 icinga2_repository: icinga-stretch
 icinga2_admin_username: icingaadmin
 icinga2_plugin_custom_dir: /opt/nagios/netplug/netplug_commands
