@@ -16,6 +16,7 @@
     - icinga2
     - icinga2-ido-mysql
     - monitoring-plugins
+    - mailutils
 
 - name: Copy Icinga config files
   template:
