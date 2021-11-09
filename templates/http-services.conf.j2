@@ -152,14 +152,6 @@ apply Service "kyselyt.kirjastot.fi HTTP" {
   assign where host.name == "smallsites.kirjastot.fi"
 }
 
-apply Service "okariino.fi HTTP" {
-  import "generic-service"
-  check_command = "http"
-  vars.http_uri = "/"
-  vars.http_vhost = "www.okariino.fi"
-  assign where host.name == "smallsites.kirjastot.fi"
-}
-
 apply Service "blogit.kirjastot.fi HTTP" {
   import "generic-service"
   check_command = "http"
@@ -168,35 +160,11 @@ apply Service "blogit.kirjastot.fi HTTP" {
   assign where host.name == "smallsites.kirjastot.fi"
 }
 
-apply Service "kiravo.kirjastot.fi HTTP" {
-  import "generic-service"
-  check_command = "http"
-  vars.http_uri = "/"
-  vars.http_vhost = "kiravo.kirjastot.fi"
-  assign where host.name == "smallsites.kirjastot.fi"
-}
-
-apply Service "kiravoprojekti.kirjastot.fi HTTP" {
-  import "generic-service"
-  check_command = "http"
-  vars.http_uri = "/"
-  vars.http_vhost = "kiravoprojekti.kirjastot.fi"
-  assign where host.name == "smallsites.kirjastot.fi"
-}
-
 apply Service "now.libraries.fi HTTP" {
   import "generic-service"
   check_command = "http"
   vars.http_uri = "/"
   vars.http_vhost = "now.libraries.fi"
-  assign where host.name == "smallsites.kirjastot.fi"
-}
-
-apply Service "sustainability.libraries.fi HTTP" {
-  import "generic-service"
-  check_command = "http"
-  vars.http_uri = "/"
-  vars.http_vhost = "sustainability.libraries.fi"
   assign where host.name == "smallsites.kirjastot.fi"
 }
 
